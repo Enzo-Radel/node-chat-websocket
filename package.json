@@ -1,0 +1,12 @@
+{
+  "name": "chatwebsocket",
+  "version": "1.0.0",
+  "description": "Chat using node.js and websocket",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Enzo Radel",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
