@@ -14,12 +14,12 @@ const UserController = {
 
         if (data["password"] != data["confirm-password"]) {
             console.log("senha não é igual"); // substituir por mensagem de erro an tela
-            response.redirect("/user/create");
+            // response.redirect("/user/create");
         }
 
         let user = User.create(data);
 
-        response.redirect("/user");
+        // response.redirect("/user");
     }
 }
 
