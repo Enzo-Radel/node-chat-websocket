@@ -2,9 +2,9 @@ import crypto from "crypto"
 
 export default class Model
 {
-    protected id: string;
-    protected created_at: Date;
-    protected updated_at: Date;
+    public id: string;
+    public created_at: Date;
+    public updated_at: Date;
 
     constructor()
     {
@@ -16,10 +16,5 @@ export default class Model
     private generateId()
     {
         return crypto.randomUUID();
-    }
-
-    public save()
-    {
-        // adicionar no banco de dados
     }
 }

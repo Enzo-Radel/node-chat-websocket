@@ -1,15 +1,14 @@
-import mysql from "mysql2";
+import mysql from "mysql2/promise";
 
-var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "rootroot",
-    database: "node_chat_websocket"
-});
+const conectar = async () => {
+	var con = await mysql.createConnection({
+	host: "localhost",
+		user: "root",
+		password: "rootroot",
+		database: "node_chat_websocket"
+	});
 
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
-});
+	return con;
+}
 
-export default con;
+export default conectar;

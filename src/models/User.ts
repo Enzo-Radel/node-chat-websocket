@@ -4,9 +4,11 @@ import dbConnection from "../config/dbConnection";
 
 export default class User extends Model
 {
-    private name: string;
-    private email: string;
-    private password: string;
+    static table: string =  "users";
+
+    public name: string;
+    public email: string;
+    public password: string;
 
     constructor(iUser: IUser)
     {
@@ -17,23 +19,56 @@ export default class User extends Model
         this.password = iUser.password;
     }
 
-    public static create(attributes: IUser)
+    public static async getAll()
+    {
+        let con = await dbConnection();
+        let query = `
+            SELECT * FROM ${User.table}
+        `;
+
+        const [rows] = await con.query(query);
+
+        return rows;
+    }
+
+    public static async create(attributes: IUser)
     {
         let user = new User(attributes);
 
-        const datetime = user.created_at.toJSON().slice(0, 19).replace('T', ' ')
-
-        console.log(datetime);
-
-        var sql = `INSERT INTO users (id, name, email, password, created_at, updated_at) VALUES ('${user.id}', '${user.name}', '${user.email}', '${user.password}', '${user.formatCreatedAtToMysql()}', '${user.formatUpdatedAtToMysql()}')`;
-        dbConnection.query(sql, function (err, result) {
-            if (err) throw err;
-            console.log("1 record inserted");
-        });
-
-        // user.save();
+        let con = await dbConnection();
+        let query = `
+            INSERT INTO ${User.table}
+                (
+                    id,
+                    name,
+                    email,
+                    password,
+                    created_at,
+                    updated_at
+                ) VALUES (
+                    '${user.id}',
+                    '${user.name}',
+                    '${user.email}',
+                    '${user.password}',
+                    '${user.formatCreatedAtToMysql()}',
+                    '${user.formatUpdatedAtToMysql()}'
+                )`;
+        con.query(query);
 
         return user;
+    }
+
+    public static async findById(id: string)
+    {
+        let con = await dbConnection();
+        let query = `
+            SELECT * FROM ${User.table}
+            WHERE id = "${id}"
+        `;
+
+        const [user] = await con.query(query);
+
+        return user[0];
     }
 
     public getFormattedCreatedAt(): string
@@ -41,12 +76,12 @@ export default class User extends Model
         return this.created_at.toDateString();
     }
 
-    private formatCreatedAtToMysql(): string
+    public formatCreatedAtToMysql(): string
     {
         return this.created_at.toJSON().slice(0, 19).replace('T', ' ')
     }
 
-    private formatUpdatedAtToMysql(): string
+    public formatUpdatedAtToMysql(): string
     {
         return this.updated_at.toJSON().slice(0, 19).replace('T', ' ')
     }

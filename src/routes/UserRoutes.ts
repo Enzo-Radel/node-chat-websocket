@@ -6,5 +6,6 @@ import UserController from "../controllers/UserController";
 router.get("/", UserController.getAllUsers);
 router.get("/create", UserController.createNewUser);
 router.post("/store", UserController.storeNewUser);
+router.get("/:id", UserController.findOneUser);
 
 export default router;
