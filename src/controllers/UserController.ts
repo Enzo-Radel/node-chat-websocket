@@ -52,6 +52,14 @@ const UserController = {
             });
         });
     },
+
+    delete: (request, response) => {
+        User.findById(request.params.id).then((user) => {
+            user.delete().then(() => {
+                response.redirect("/user");
+            });
+        });
+    },
 }
 
 export default UserController;

@@ -129,6 +129,18 @@ export default class User extends Model
         await con.query(query);
     }
 
+    public async delete()
+    {
+        let con = await dbConnection();
+        let query = `
+            DELETE FROM ${User.table}
+            WHERE
+                id = "${this.id}"
+        `;
+
+        await con.query(query);
+    }
+
     public getFormattedCreatedAt(): string
     {
         return this.created_at.toDateString();

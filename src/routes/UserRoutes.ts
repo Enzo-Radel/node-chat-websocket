@@ -7,7 +7,8 @@ router.get("/", UserController.index);
 router.get("/create", UserController.create);
 router.post("/store", UserController.store);
 router.get("/:id", UserController.show);
-router.get("/edit/:id", UserController.edit)
-router.post("/update/:id", UserController.update)
+router.get("/edit/:id", UserController.edit);
+router.post("/update/:id", UserController.update);
+router.get("/delete/:id", UserController.delete);
 
 export default router;
