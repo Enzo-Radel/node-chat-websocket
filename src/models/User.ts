@@ -19,6 +19,21 @@ export default class User extends Model
         this.password = iUser.password;
     }
 
+    public static createFromDatabase(attributes: Array<any>)
+    {
+        let user = new User({
+            name: attributes["name"],
+            email: attributes["email"],
+            password: attributes["password"],
+        });
+
+        user.id = attributes["id"];
+        user.created_at = attributes["created_at"];
+        user.updated_at = attributes["updated_at"];
+
+        return user;
+    }
+
     public static async getAll()
     {
         let con = await dbConnection();
@@ -26,9 +41,19 @@ export default class User extends Model
             SELECT * FROM ${User.table}
         `;
 
-        const [rows] = await con.query(query);
+        let usersAsArray;
 
-        return rows;
+        let users : Array<User> = [];
+
+        await con.query(query).then((result) => {
+            usersAsArray = result[0];
+        });
+
+        usersAsArray.forEach(user => {
+            users.push(User.createFromDatabase(user))
+        });
+
+        return users;
     }
 
     public static async create(attributes: IUser)
@@ -66,9 +91,29 @@ export default class User extends Model
             WHERE id = "${id}"
         `;
 
-        const [user] = await con.query(query);
+        // const [user] = await con.query(query);
 
-        return user[0];
+        // return user[0];
+    }
+
+    public async update(attributes: IUser)
+    {
+        this.name = attributes.name;
+        this.email = attributes.email;
+        this.password = attributes.password;
+
+        let con = await dbConnection();
+        let query = `
+            UPDATE ${User.table}
+            SET
+                name = "${this.name}",
+                email = "${this.email}",
+                password = "${this.password}"
+            WHERE
+                id = "${this.id}"
+        `;
+
+        await con.query(query);
     }
 
     public getFormattedCreatedAt(): string

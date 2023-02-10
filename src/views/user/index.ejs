@@ -41,12 +41,12 @@
                                         <tr class="bg-gray-100">
                                             <td class="px-3 text-start font-semibold"><%- user.name %> </td>
                                             <td class="px-3 text-start font-semibold"><%- user.email %> </td>
-                                            <td class="px-3 text-start font-semibold"><%- user.created_at.toDateString() %> </td>
+                                            <td class="px-3 text-start font-semibold"><%- user.getFormattedCreatedAt() %> </td>
                                             <td class="px-3 text-start flex gap-x-2">
-                                                <a href="/user/<%- user.id %> ">
+                                                <a href="/user/<%- user.id %>">
                                                     <button><i class="bi bi-eye"></i></button>
                                                 </a>
-                                                <a href="#">
+                                                <a href="/user/edit/<%- user.id %>">
                                                     <button><i class="bi bi-pencil-square"></i></button>
                                                 </a>
                                                 <form method="POST" action="#"> 

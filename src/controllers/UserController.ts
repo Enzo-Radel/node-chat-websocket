@@ -1,17 +1,17 @@
 import User from "../models/User";
 
 const UserController = {
-    getAllUsers: (request, response) => {
+    index: (request, response) => {
         User.getAll().then((users) => {
             response.render("user/index", {"users": users});
         });
     },
 
-    createNewUser: (request, response) => {
+    create: (request, response) => {
         response.render("user/create");
     },
 
-    storeNewUser: (request, response) => {
+    store: (request, response) => {
         let data = request.body;
 
         if (data["password"] != data["confirm-password"]) {
@@ -24,11 +24,25 @@ const UserController = {
         });
     },
 
-    findOneUser: (request, response) => {
+    show: (request, response) => {
         User.findById(request.params.id).then((user) => {
             response.render("user/show", {"user": user});
         });
-    }
+    },
+
+    edit: (request, response) => {
+        User.findById(request.params.id).then((user) => {
+            response.render("user/edit", {"user": user});
+        });
+    },
+
+    update: (request, response) => {
+        User.findById(request.params.id).then((user) => {
+            
+            response.render("user/edit", {"user": user});
+        });
+        // console.log("chegou aqui");
+    },
 }
 
 export default UserController;
