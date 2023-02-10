@@ -110,7 +110,10 @@ export default class User extends Model
     {
         this.name = attributes.name;
         this.email = attributes.email;
-        this.password = attributes.password;
+
+        if (attributes.password != "") {
+            this.password = attributes.password;
+        }
 
         let con = await dbConnection();
         let query = `
