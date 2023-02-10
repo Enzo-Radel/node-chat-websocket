@@ -91,9 +91,19 @@ export default class User extends Model
             WHERE id = "${id}"
         `;
 
-        // const [user] = await con.query(query);
+        let usersAsArray;
 
-        // return user[0];
+        let users : Array<User> = [];
+
+        await con.query(query).then((result) => {
+            usersAsArray = result[0];
+        });
+
+        usersAsArray.forEach(user => {
+            users.push(User.createFromDatabase(user))
+        });
+
+        return users[0];
     }
 
     public async update(attributes: IUser)
